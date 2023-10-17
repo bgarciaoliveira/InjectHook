@@ -57,7 +57,7 @@ bool InstallHook(void* targetFunction, void* hookFunction, HookType type);
 ```cpp
 
 __declspec(naked) void MyNakedFunction() {
-    const continueAddress = 0x1234567;
+    const continueAddress = 0x12345678;
     __asm {
         // Push some registers, etc
 
