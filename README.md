@@ -70,7 +70,7 @@ __declspec(naked) void MyNakedFunction() {
         // Call the __stdcall hook handler.
         call HookHandlerFunction
 
-        // Things todo: 
+        // Things you have todo: 
         // Restore the overwritten assembly
 
         // Continue the normal execution flow
