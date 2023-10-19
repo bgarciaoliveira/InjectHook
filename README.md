@@ -117,3 +117,5 @@ RemoveHook((void*)TargetFunctionAddress);
 2. Ensure no threads are actively executing the hooked functions when setting or removing hooks to prevent unpredictable behaviors.
 3. The library is tailored for the x86 architecture. Ensure compatibility with your target environment.
 4. The hooking mechanism in `InjectHook` currently supports the `JMP_LONG` type, and this will work for most cases. However, users can extend the library to support additional jump types as needed.
+5. You need to inject your generated dll into the main program, using LoadLibrary.
+
