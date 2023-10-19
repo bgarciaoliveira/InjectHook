@@ -56,32 +56,44 @@ bool InstallHook(void* targetFunction, void* hookFunction, HookType type);
 
 ```cpp
 
-__declspec(naked) void MyNakedFunction() {
+__declspec(naked) void MyNakedFunction() { // Just an example
     const continueAddress = 0x12345678;
+    const endFunctionAdress = 0x12345123;
     __asm {
-        // Push some registers, etc
-
-        // Just an example
-        mov eax, dword ptr ss:[ebp+8]
+        // Restore the overwritten assembly here
+        mov eax, dword ptr ds:[ebp-214]
+        sar eax, 2
+         
+        // Push some registers, etc        
+        push dword ptr ss:[ebp+8]
+        mov eax, dword ptr ss:[ebp+c]
         push eax
-
         lea edx
-        
+       
         // Call the __stdcall hook handler.
         call HookHandlerFunction
 
-        // Things you have todo: 
-        // Restore the overwritten assembly
+        // Test the return of the hook handler
+        test eax, eax
+        je canContinue
 
+        jmp endFunctionAdress      
+
+    canContinue:
         // Continue the normal execution flow
         jmp continueAddress
     }
 }
 
-void __stdcall HookHandlerFunction(int *param1, int param2) {
+void __stdcall HookHandlerFunction(int *param1, int param2, int &param3) {
     // This is the function that gets called from the naked function.
     // Use __stdcall calling convention, so you won't need to clean up the stack
     // Your hook handling code here.
+
+    *param1 <<= 2;
+    param3 *= 2;
+
+    return param2 > 0;
 }
 
 BOOL APIENTRY DllMain(HMODULE hModule, DWORD  ul_reason_for_call, LPVOID lpReserved) {
