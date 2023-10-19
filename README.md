@@ -61,12 +61,12 @@ __declspec(naked) void MyNakedFunction() { // Just an example
     const endFunctionAdress = 0x12345123;
     __asm {
         // Restore the overwritten assembly here
-        mov eax, dword ptr ds:[ebp-214]
+        mov eax, dword ptr ds:[ebp-0214h]
         sar eax, 2
          
         // Push some registers, etc        
         push dword ptr ss:[ebp+8]
-        mov eax, dword ptr ss:[ebp+c]
+        mov eax, dword ptr ss:[ebp+0ch]
         push eax
         lea edx
        
